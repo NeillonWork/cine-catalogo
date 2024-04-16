@@ -1,10 +1,13 @@
-function App(){
+import RoutesApp from "./routes";
+import './index.css';
 
-  return(
+function App() {
+  return (
     <div>
-      <h1> HELLO WORD</h1>
+      <RoutesApp />
+      <div className="app"></div>
     </div>
-  )
-};
+  );
+}
 
 export default App;
