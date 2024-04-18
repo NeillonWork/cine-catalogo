@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import "../../services/api";
 import api from "../../services/api";
 import { Link } from "react-router-dom";
-import './home.css';
+import "./home.css";
 
 //https://api.themoviedb.org/3/movie/now_playing?api_key=bd87ec7688f77cd16be1c6ecd91de7b2&language=pt-BR
 
 function Home() {
   const [filmes, setFilmes] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadFIlmes() {
@@ -21,10 +22,19 @@ function Home() {
 
       //console.log(response.data.results.slice(0,10));
       setFilmes(response.data.results.slice(0, 10));
+      setLoading(false);
     }
 
     loadFIlmes();
   }, []);
+
+  if (loading) {
+    return (
+      <div className="loading">
+        <h2>Carregando filmes...</h2>
+      </div>
+    );
+  }
 
   return (
     <div className="container">
