@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../../services/api";
+import "../../pages/Filme/filme.css";
 
 function Filme() {
   const { id } = useParams();
   const [filme, setFilme] = useState({});
   const [loading, setLoading] = useState(true);
+  const navegate = useNavigate();
 
   useEffect(() => {
     async function loadFilme() {
@@ -16,12 +18,13 @@ function Filme() {
             language: "pt-BR",
           },
         })
-        .then((response) => {
+        .then((response) => {      
           setFilme(response.data);
           setLoading(false);
         })
-        .catch(() => {
-          console.log("FILME NAO ENCONTRADO");
+        .catch(() => {         
+          navegate("/", { replace: true });
+          return;
         });
     }
     loadFilme();
@@ -29,7 +32,7 @@ function Filme() {
     return () => {
       console.log("COMPONENTE FOI DESMONTADO");
     };
-  }, []);
+  }, [navegate, id]);
 
   if (loading) {
     return (
@@ -41,11 +44,21 @@ function Filme() {
 
   return (
     <div className="filme-info">
-        <h1>{filme.title}</h1>
-      <img  src={`https://image.tmdb.org/t/p/original/${filme.backdrop_path}`} alt={filme.title} />
+      <h1>{filme.title}</h1>
+      <img
+        src={`https://image.tmdb.org/t/p/original/${filme.backdrop_path}`}
+        alt={filme.title}
+      />
       <h3>Sinopse</h3>
       <span>{filme.overview}</span>
       <strong>Avaliação: {filme.vote_average} /10</strong>
+
+      <div className="area-buttons">
+        <button>Salvar</button>
+        <button>
+          <a target="_blank" rel="external" href={`https://youtube.com/results?search_query=${filme.title} Trailer`}>Trailer</a>
+        </button>
+      </div>
     </div>
   );
 }
