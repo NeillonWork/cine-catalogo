@@ -18,11 +18,11 @@ function Filme() {
             language: "pt-BR",
           },
         })
-        .then((response) => {      
+        .then((response) => {
           setFilme(response.data);
           setLoading(false);
         })
-        .catch(() => {         
+        .catch(() => {
           navegate("/", { replace: true });
           return;
         });
@@ -33,6 +33,24 @@ function Filme() {
       console.log("COMPONENTE FOI DESMONTADO");
     };
   }, [navegate, id]);
+
+  function salvarFilme() {
+    const minhaLista = localStorage.getItem("@cinecatalogo");
+
+    let filmeSalvos = JSON.parse(minhaLista) || [];
+
+    const hasFilme = filmeSalvos.some(
+      (filmeSalvos) => filmeSalvos.id === filme.id
+    )
+    if(hasFilme){
+      alert("Este filme já esta em sua lista")
+      return;
+    }
+
+    filmeSalvos.push(filme);
+    localStorage.setItem('@cinecatalogo',JSON.stringify(filmeSalvos))
+    alert("FIlme adicionado a sua lista!")
+  }
 
   if (loading) {
     return (
@@ -54,9 +72,15 @@ function Filme() {
       <strong>Avaliação: {filme.vote_average} /10</strong>
 
       <div className="area-buttons">
-        <button>Salvar</button>
+        <button onClick={salvarFilme}>Salvar</button>
         <button>
-          <a target="blank" rel="external" href={`https://youtube.com/results?search_query=${filme.title} Trailer`}>Trailer</a>
+          <a
+            target="blank"
+            rel="external"
+            href={`https://youtube.com/results?search_query=${filme.title} Trailer`}
+          >
+            Trailer
+          </a>
         </button>
       </div>
     </div>
