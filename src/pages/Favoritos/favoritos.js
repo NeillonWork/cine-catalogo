@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./favoritos.css";
+import { toast } from "react-toastify";
 
 function Favorito() {
   const [meusFilmes, setFilmes] = useState([]);
@@ -20,6 +21,7 @@ function Favorito() {
       return item.id !== id;
     });
     
+    toast.success("Filme removido com sucesso");
     setFilmes(filtroFilme);
   }
 
