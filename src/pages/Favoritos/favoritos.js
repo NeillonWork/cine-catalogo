@@ -15,6 +15,14 @@ function Favorito() {
     listarFilmes();
   }, []);
 
+  function ExcluirFilme(id) {
+    let filtroFilme = meusFilmes.filter((item) => {
+      return item.id !== id;
+    });
+    
+    setFilmes(filtroFilme);
+  }
+
   return (
     <div className="meus-filmes">
       <h1>Favoritos</h1>
@@ -25,7 +33,7 @@ function Favorito() {
               <span>{item.title}</span>
               <div>
                 <Link to={`/filme/${item.id}`}> Ver detalhes</Link>
-                <button>Excluir</button>
+                <button onClick={() => ExcluirFilme(item.id)}>Excluir</button>
               </div>
             </li>
           );
